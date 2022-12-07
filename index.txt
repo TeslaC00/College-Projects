@@ -1,2 +1,0 @@
-focp project -
-1. Library management system
