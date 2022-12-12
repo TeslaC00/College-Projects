@@ -25,8 +25,7 @@ void gotoxy(int x, int y)
 	c.X = x;
 	c.Y = y;
 
-	SetConsoleCursorPosition(
-		GetStdHandle(STD_OUTPUT_HANDLE), c);
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
 }
 
 // Creating a structure to store
@@ -178,15 +177,12 @@ void account(void)
 	}
 
 	// Writing to the file
-	fwrite(&u1, sizeof(u1),
-		1, fp);
+	fwrite(&u1, sizeof(u1),1, fp);
 
 	// Closing file
 	fclose(fp);
 
-	// Calling another function
-	// after successful creation
-	// of account
+	// Calling another function after successful creation of account
 	accountcreated();
 }
 
@@ -269,11 +265,8 @@ void login(void)
 
 	// Checking if username
 	// exists in the file or not
-	while (fread(&u1, sizeof(u1),
-				1, fp)) {
-		if (strcmp(username,
-				u1.username)
-			== 0) {
+	while (fread(&u1, sizeof(u1),1, fp)) {
+		if (strcmp(username,u1.username)== 0) {
 			loginsu();
 			display(username);
 		}
@@ -319,14 +312,10 @@ void display(char username1[])
 		printf("error in opening file");
 	}
 
-	while (fread(&u1, sizeof(u1),
-				1, fp)) {
-		if (strcmp(username1,
-				u1.username)
-			== 0) {
+	while (fread(&u1, sizeof(u1),1, fp)) {
+		if (strcmp(username1,u1.username)== 0) {
 			gotoxy(30, 1);
-			printf("WELCOME, %s %s",
-				u1.fname, u1.lname);
+			printf("WELCOME, %s %s",u1.fname, u1.lname);
 			gotoxy(28, 2);
 			printf("..........................");
 			gotoxy(55, 6);
@@ -334,36 +323,28 @@ void display(char username1[])
 			gotoxy(55, 8);
 			printf("*********");
 			gotoxy(55, 10);
-			printf("NAME..%s %s", u1.fname,
-				u1.lname);
+			printf("NAME..%s %s", u1.fname,u1.lname);
 
 			gotoxy(55, 12);
-			printf("FATHER's NAME..%s %s",
-				u1.fathname,
-				u1.lname);
+			printf("FATHER's NAME..%s %s",u1.fathname,u1.lname);
 
 			gotoxy(55, 14);
-			printf("MOTHER's NAME..%s",
-				u1.mothname);
+			printf("MOTHER's NAME..%s",u1.mothname);
 
 			gotoxy(55, 16);
-			printf("ADHAR CARD NUMBER..%s",
-				u1.adharnum);
+			printf("ADHAR CARD NUMBER..%s",u1.adharnum);
 
 			gotoxy(55, 18);
-			printf("MOBILE NUMBER..%s",
-				u1.pnumber);
+			printf("MOBILE NUMBER..%s",u1.pnumber);
 
 			gotoxy(55, 20);
-			printf("DATE OF BIRTH.. %d-%d-%d",
-				u1.date, u1.month, u1.year);
+			printf("DATE OF BIRTH.. %d-%d-%d",u1.date, u1.month, u1.year);
 
 			gotoxy(55, 22);
 			printf("ADDRESS..%s", u1.address);
 
 			gotoxy(55, 24);
-			printf("ACCOUNT TYPE..%s",
-				u1.typeaccount);
+			printf("ACCOUNT TYPE..%s",u1.typeaccount);
 		}
 	}
 
@@ -446,17 +427,12 @@ void transfermoney(void)
 
 	// Checking for username if it
 	// is present in file or not
-	while (fread(&u1, sizeof(u1),
-				1, fp))
+	while (fread(&u1, sizeof(u1),1, fp))
 
 	{
-		if (strcmp(usernamep,
-				u1.username)
-			== 0) {
-			strcpy(m1.usernameto,
-				u1.username);
-			strcpy(m1.userpersonfrom,
-				usernamet);
+		if (strcmp(usernamep,u1.username)== 0) {
+			strcpy(m1.usernameto,u1.username);
+			strcpy(m1.userpersonfrom,usernamet);
 		}
 	}
 	gotoxy(33, 16);
@@ -466,8 +442,7 @@ void transfermoney(void)
 	scanf("%d", &m1.money1);
 
 	// Writing to the file
-	fwrite(&m1, sizeof(m1),
-		1, fm);
+	fwrite(&m1, sizeof(m1),1, fm);
 
 	gotoxy(0, 26);
 	printf(
@@ -532,13 +507,9 @@ void checkbalance(char username2[])
 	gotoxy(u, v);
 	printf("AMOUNT");
 
-	// Reading username to
-	// fetch the correct record
-	while (fread(&m1, sizeof(m1),
-				1, fm)) {
-		if (strcmp(username2,
-				m1.usernameto)
-			== 0) {
+	// Reading username to fetch the correct record
+	while (fread(&m1, sizeof(m1),1, fm)) {
+		if (strcmp(username2,m1.usernameto)== 0) {
 			gotoxy(k, ++l);
 			printf("%d", i);
 			i++;
@@ -547,8 +518,7 @@ void checkbalance(char username2[])
 
 			gotoxy(u, ++v);
 			printf("%d", m1.money1);
-			// Adding and
-			// finding total money
+			// Adding and finding total money
 			summoney = summoney + m1.money1;
 		}
 	}
@@ -561,8 +531,7 @@ void checkbalance(char username2[])
 
 	getch();
 
-	// Closing file after
-	// reading it
+	// Closing file after reading it
 	fclose(fm);
 	display(username2);
 }
