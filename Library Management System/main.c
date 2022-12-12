@@ -13,14 +13,14 @@ int main(){
         int i;
         system("cls");
         printf("Library Management System\n\n");
-        printf("0.Exit\n1.List\n2.Issue book\n3.Remove book\n");
+        printf("1.List\n2.Issue book\n3.Remove book\n4.Exit\n");
         printf("Enter your choice: ");
         scanf("%d",&i);
         switch(i){
-            case 0: exit(0); break;
             case 1: list(); break;
             case 2: issue(); break;
             case 3: rm(); break;
+            case 4: exit(0); break;
         }
 
     }
