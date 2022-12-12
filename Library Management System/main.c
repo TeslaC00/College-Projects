@@ -2,9 +2,11 @@
 #include<time.h>
 #include<string.h>
 #include<stdlib.h>
+
 void list(void);
 void issue(void);
 void rm(void);
+
 int main(){
 
     while(1){
