@@ -40,13 +40,6 @@ int main()
     gotoxy(22,8);
     printf("3..... Exit\n");
     gotoxy(20,10);
-    /*FILE *fp;
-    fp=fopen("users.txt","ab");
-    struct user u1;
-    printf("type user name");
-    scanf("%s",u1.user);
-    fwrite(&u1,sizeof(u1),1,fp);
-    fclose(fp);*/
     printf("Enter Your Choice.....");
     scanf("%d", &choice);
 
