@@ -1,109 +1,32 @@
-#include <stdio.h>
-#include <conio.h>
-#include <string.h>
-#include <windows.h>
-void gotoxy(int x, int y)
-{
-	COORD c;
-	c.X = x;
-	c.Y = y;
-
-	SetConsoleCursorPosition(
-		GetStdHandle(STD_OUTPUT_HANDLE), c);
-}
-
-void transfer(char[],char[]);
-void checkbal(char*);
+#include<stdio.h>
 
 struct user{
-    char user[25];
+    char username[50];
+	int date, month, year;
+	char pnumber[15];
+	char adharnum[20];
+	char fname[20];
+	char lname[20];
+	char fathname[20];
+	char mothname[20];
+	char address[50];
+	char typeaccount[20];
+    char password[20];
 };
 
-struct money{
-    char userfrom[20];
-    char userto[20];
-    long money;
-};
+void accountdetails(char*);
 
-int main()
-{
-    int choice;
-
-    gotoxy(20,3);
-    printf("Welcome To Bank Account System\n");
-    gotoxy(19,4);
-    printf("********************************\n");
-    gotoxy(22,6);
-    printf("1..... Create New Account\n");
-    gotoxy(22,7);
-    printf("2..... Login\n");
-    gotoxy(22,8);
-    printf("3..... Exit\n");
-    gotoxy(20,10);
-    printf("Enter Your Choice.....");
-    scanf("%d", &choice);
-
-    switch (choice)
-    {
-    case 1:
-        //account()
-        //personaldetails()
-        transfer("test1","test2");
-        break;
-    
-    case 2:
-        //login()
-        checkbal("test1");
-        break;
-    
-    case 3:
-        exit(0);
-        break;
-    
-    default:
-        break;
-    }
+int main(){
+    accountdetails("vikas");
     return 0;
 }
-
-void transfer(char userto[20], char userfrom[20]){
-    FILE *user, *money;
+void accountdetails(char user[20]){
+    FILE *fp;
     struct user u;
-    struct money m;
-    user=fopen("users.txt","rb");
-    money=fopen("money.txt","ab");
-    /*printf("Type the account to transfer from");
-    scanf(" %s",userfrom);
-    printf("Type the account to transfer to");
-    scanf(" %s",userto);*/
-    while(fread(&u, sizeof(u), 1, user)){
-        printf("yes\n");
-        if(strcmp(userto,u.user)==0){
-            strcpy(m.userfrom,userfrom);
-            strcpy(m.userto,userto);
-            printf("yes\n");
-        }
+    fp=fopen("user.txt","r");
+    while(1){
+    fscanf(fp,"%s\t%d\t%d\t%d\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s",u.username,&u.date,&u.month,&u.year,u.pnumber,u.adharnum,u.fname,u.lname,u.fathname,u.mothname,u.address,u.typeaccount,u.password);
+    printf("%s\t%d\t%d\t%d\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s",u.username,u.date,u.month,u.year,u.pnumber,u.adharnum,u.fname,u.lname,u.fathname,u.mothname,u.address,u.typeaccount,u.password);
     }
-    printf("Type the amount to transfer");
-    scanf(" %d",&m.money);
-    fwrite(&m,sizeof(m),1,money);
-    fclose(user);
-    fclose(money);
-
-}
-
-void checkbal(char user[20]){//username of the person to check
-    FILE *money;
-    struct money m;//needs money structure
-    money=fopen("money.txt","rb");//needs money file and in binary mode
-    int total=0;
-    printf("From\t\tTo\t\tAmount\n");
-    while(fread(&m,sizeof(m),1,money)){
-        if(strcmp(m.userto,user)==0){
-            printf("%s\t\t%s\t\t%d\n",m.userfrom,m.userto,m.money);
-            total+=m.money;
-        }
-    }
-    printf("Total %d",total);
-
+    fclose(fp);
 }
