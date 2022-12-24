@@ -3,7 +3,7 @@
 #include<windows.h>
 
 struct user{
-    char username[25];
+    char username[15];
     char password[10];
     char fname[15];
     char lname[15];
@@ -76,7 +76,7 @@ void newID(){
     fp=fopen("user.txt","ab");
     fwrite(&u,sizeof(u),1,fp);
     fclose(fp);
-    printf("\nNew Account created succesfully!!!\nNow login ");
+    printf("\nNew Account created succesfully!!!\nPress Enter to login... ");
     getch();
     login();
 }
@@ -118,7 +118,11 @@ void display(char uname[25]){
     FILE *fp;
     struct user u;
     fp=fopen("user.txt","rb");
-    fread(&u,sizeof(u),1,fp);
+    while(fread(&u,sizeof(u),1,fp)){
+        if(strcmp(u.username,uname)==0){
+            break;
+        }
+    }
     fclose(fp);
     int choice;
     system("cls");
@@ -148,7 +152,11 @@ void account(char uname[25]){
     if(fp==NULL){
         printf("Error in opening file X-X");
     }
-    fread(&u,sizeof(u),1,fp);
+    while(fread(&u,sizeof(u),1,fp)){
+        if(strcmp(u.username,uname)==0){
+            break;
+        }
+    }
     fclose(fp);
     system("cls");
     printf("Your Account Details\n\n");
@@ -167,21 +175,39 @@ void transfer(char ufrom[25]){
     FILE *fp,*fm;
     fp=fopen("user.txt","rb");
     fm=fopen("money.txt","ab");
-    struct user u;
-    while(fread(&u,sizeof(u),1,fp)){
-        if(strcmp(ufrom,u.username)==0){break;}
-    }
-    fclose(fp);
+    struct user u,u2;
+    struct money m;
     char uto[25];
     int tmoney;
     system("cls");
     printf("Money Transfer\n");
     printf("Username to transfer: ");
     scanf(" %s",uto);
+    while(fread(&u,sizeof(u),1,fp)){
+        if(strcmp(ufrom,u.username)==0){
+            while(fread(&u2,sizeof(u2),1,fp)){
+                if(strcmp(uto,u2.username)==0){
+                    break;
+                }
+                else{
+                    printf("Reciever's username not found xox");
+                    getch();
+                    transfer(ufrom);
+                }
+            }
+            break;
+        }
+    }
+    fclose(fp);
     printf("Amount to be transferred: ");
     scanf(" %d",&tmoney);
     if(tmoney<check(ufrom)){
-        printf("can be transferred");
+        strcpy(m.userfrom,ufrom);
+        strcpy(m.userto,uto);
+        m.amount=tmoney;
+        fwrite(&m,sizeof(m),1,fm);
+        fclose(fm);
+        printf("Tansfered succesfully!!!\nPress Enter to continue...");
     }
     else{
         printf("Insufficient Balance :(");
@@ -220,21 +246,21 @@ void bal(char uname[25]){
     if(fm==NULL || fp==NULL){
         printf("Error in opening money file x-x");
     }
-    printf("Acc ID\t\tAmount\n");
+    printf("Acc ID\t\t     Amount\t\t  Status\n\n");
     while(fread(&m,sizeof(m),1,fm)){
         if(strcmp(uname,m.userto)==0){
-            printf("%s\t\t%d add\n",m.userto,m.amount);
+            printf("%-20s %-20d %-25s\n",m.userto,m.amount,"Credit");
             total+=m.amount;
         }
         else if(strcmp(uname,m.userfrom)==0){
-            printf("%s\t\t%d sub\n",m.userto,m.amount);
+            printf("%-20s %-20d %-25s\n",m.userto,m.amount,"Debit");
             total-=m.amount;
         }
     }
     fclose(fp);
     fclose(fm);
-    printf("Total Balance: %ld\n",total);
-    printf("Press Enter to continue... ");
+    printf("\nTotal Balance:  %ld\n",total);
+    printf("\nPress Enter to continue... ");
     getch();
 
 }
@@ -244,8 +270,14 @@ void addmoney(){
     fm=fopen("money.txt","ab");
     struct money m;
     strcpy(m.userfrom,"MASTER");
-    strcpy(m.userto,"test");
+    system("cls");
+    printf("Type the account name to send money to: ");
+    scanf(" %s",m.userto);
     m.amount=INT_MAX;
     fwrite(&m,sizeof(m),1,fm);
     fclose(fm);
+    printf("Money Transferred Succesfully! Enjoy :)");
+    printf("\nPress Enter to return to previous screen...");
+    getch();
+    main();
 }
