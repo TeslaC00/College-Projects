@@ -17,7 +17,7 @@ struct user{
 struct money{
     char userto[25];
     char userfrom[25];
-    int amount;
+    long amount;
 };
 
 void login(void);
@@ -27,22 +27,25 @@ void account(char*);
 void bal(char*);
 void transfer(char*);
 int check(char*);
+void addmoney(void);
 
 int main(){
 
     int choice;
     system("cls");
     printf("Welcome to My Bank\n");
-    printf("\n1.Login\n2.New user, create an account\n3.Exit");
+    printf("\n1.Login\n2.New user, create an account\n3.Exit\n4.Add Money");
     printf("\nEnter your choice: ");
     scanf("%d",&choice);
     switch(choice){
         case 1: login(); break;
         case 2: newID(); break;
         case 3: exit(0); break;
+        case 4: addmoney(); break;
         default : printf("Enter a valid option");
         getch();
     }
+    main();
 
     return 0;
 }
@@ -132,9 +135,10 @@ void display(char uname[25]){
         case 2: bal(uname); break;
         case 3: transfer(uname); break;
         case 4: login(); break;
-        case 5: exit(0); break;
+        case 5: main(); break;
         default: display(uname); break;
     }
+    display(uname);
 }
 
 void account(char uname[25]){
@@ -157,7 +161,6 @@ void account(char uname[25]){
     printf("Account Type: %s\n",u.accType);
     printf("Return to previous screen...");
     getch();
-    display(uname);
 }
 
 void transfer(char ufrom[25]){
@@ -184,22 +187,39 @@ void transfer(char ufrom[25]){
         printf("Insufficient Balance :(");
     }
     getch();
-    display(ufrom);
 }
 
-int check(char uname[25]){}
-
-void bal(char uname[25]){
-    FILE *fp,*fm;
+int check(char uname[25]){
+     FILE *fp,*fm;
     struct user u;
     struct money m;
     int total=0;
     fp=fopen("user.txt","rb");
     fm=fopen("money.txt","rb");
+    while(fread(&m,sizeof(m),1,fm)){
+        if(strcmp(uname,m.userto)==0){
+            total+=m.amount;
+        }
+        else if(strcmp(uname,m.userfrom)==0){
+            total-=m.amount;
+        }
+    }
+    fclose(fp);
+    fclose(fm);
+    return total;
+}
+
+void bal(char uname[25]){
+    FILE *fp,*fm;
+    struct user u;
+    struct money m;
+    long total=0;
+    fp=fopen("user.txt","rb");
+    fm=fopen("money.txt","rb");
+    system("cls");
     if(fm==NULL || fp==NULL){
         printf("Error in opening money file x-x");
     }
-    while(fread)//read an update balance in user file
     printf("Acc ID\t\tAmount\n");
     while(fread(&m,sizeof(m),1,fm)){
         if(strcmp(uname,m.userto)==0){
@@ -211,6 +231,21 @@ void bal(char uname[25]){
             total-=m.amount;
         }
     }
-    printf("Total Balance: %d",total);
+    fclose(fp);
+    fclose(fm);
+    printf("Total Balance: %ld\n",total);
+    printf("Press Enter to continue... ");
+    getch();
 
+}
+
+void addmoney(){
+    FILE *fm;
+    fm=fopen("money.txt","ab");
+    struct money m;
+    strcpy(m.userfrom,"MASTER");
+    strcpy(m.userto,"test");
+    m.amount=INT_MAX;
+    fwrite(&m,sizeof(m),1,fm);
+    fclose(fm);
 }
