@@ -269,7 +269,17 @@ void addmoney(){
         main();
     }
     printf("PASSWORD: ");
-    //password logic needed
+    for(int i=0; i<10; i++){
+        ch=getch();
+        if(ch!=13){
+            pass[i]=ch;
+            printf("*");
+        }
+        else{
+            pass[i]='\0';
+            break;
+        }
+    }
     if(strcmp(pass,p)!=0){
         printf("\nWrong Password");
         getch();
@@ -279,7 +289,7 @@ void addmoney(){
         m.amount=INT_MAX;
         fwrite(&m,sizeof(m),1,fm);
         fclose(fm);
-        printf("Money Transferred Succesfully! Enjoy :)");
+        printf("\nMoney Transferred Succesfully! Enjoy :)");
         printf("\nPress Enter to return to previous screen...");
     }
     getch();
@@ -290,14 +300,15 @@ int checkID(char ID[15]){
     FILE *fp;
     fp=fopen("user.txt","rb");
     struct user u;
+    int match;
     while(fread(&u,sizeof(u),1,fp)){
         if(strcmp(ID,u.username)==0){
-            fclose(fp);
-            return 1;
+            match=1; break;
         }
         else{
-            fclose(fp);
-            return 0;
+            match=0;
         }
     }
+    fclose(fp);
+    return match;
 }
