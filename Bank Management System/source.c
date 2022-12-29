@@ -237,13 +237,12 @@ void bal(char uname[15]){
     printf("Your Account Statement\n\n");
     printf("From\t\tTo\t\tAmount\t\tStatus\n\n");
     while(fread(&m,sizeof(m),1,fm)){
-        printf("%-15s %-15s %-15d ",m.userfrom,m.userto,m.amount);
         if(strcmp(uname,m.userto)==0){
-            printf("Credit\n");
+            printf("%-15s %-15s %-15d %-15s\n",m.userfrom,m.userto,m.amount,"Credit");
             total+=m.amount;
         }
         else if(strcmp(uname,m.userfrom)==0){
-            printf("Debit\n");
+            printf("%-15s %-15s %-15d %-15s\n",m.userfrom,m.userto,m.amount,"Debit");
             total-=m.amount;
         }
     }
