@@ -235,14 +235,14 @@ void bal(char uname[15]){
         printf("Error in opening money file x-x");
     }
     printf("Your Account Statement\n\n");
-    printf("Acc ID\t\t     Amount\t\t  Status\n\n");
+    printf("From\t\tTo\t\tAmount\t\tStatus\n\n");
     while(fread(&m,sizeof(m),1,fm)){
         if(strcmp(uname,m.userto)==0){
-            printf("%-20s %-20d %-25s\n",m.userto,m.amount,"Credit");
+            printf("%-15s %-15s %-15d %-15s\n",m.userfrom,m.userto,m.amount,"Credit");
             total+=m.amount;
         }
         else if(strcmp(uname,m.userfrom)==0){
-            printf("%-20s %-20d %-25s\n",m.userto,m.amount,"Debit");
+            printf("%-15s %-15s %-15d %-15s\n",m.userfrom,m.userto,m.amount,"Debit");
             total-=m.amount;
         }
     }
